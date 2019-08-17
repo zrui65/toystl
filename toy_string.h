@@ -8,9 +8,7 @@
 #ifndef __TOY_STRING__
 #define __TOY_STRING__
 
-#include <iostream>
 #include <assert.h>
-
 #include <toy_alloc.h>
 #include <toy_algo.h>
 
@@ -37,7 +35,6 @@ private:
         value_type  _local_buf[_local_capacity + 1]; // 栈上的数据空间
         size_type   _capacity; // 栈空间不使用时，用作变量_capacity，此变量用于描述堆空间大小
     };
-
 
 
     // 用来明确对_data的读写，防止误操作
@@ -98,6 +95,7 @@ private:
     bool is_local() const {
         return data() == local_data();
     }
+
     size_type chars_length(const value_type* __str) {
         int __i = 0;
         while(__str[__i] != value_type()) {
@@ -238,6 +236,8 @@ void string::pop_back() {
     set_length(size() - 1);
 }
 
+
+// 作用:使用新数据作为自己的内容
 string& string::assign(const string& __str) {
     if(this == &__str) return *this;
 
@@ -384,10 +384,9 @@ std::ostream& operator<<(std::ostream& __os, string&& __str) {
     return __os;
 }
 
-std::istream& operator>>(std::istream& __is, string& __str) {
-    
-    return __is;
-}
+// std::istream& operator>>(std::istream& __is, string& __str) {
+//     return __is;
+// }
 
 }
 

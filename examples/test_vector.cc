@@ -38,6 +38,8 @@ int main() {
     v1.push_back(b);
     printV(v1); // 7 8 9
 
+    v1 = v1;
+
     std::cout << "index: first = " << v1.front() << std::endl;
     std::cout << "index: last  = " << v1.back() << std::endl;
     std::cout << "index: 1     = " << v1.at(1) << std::endl;

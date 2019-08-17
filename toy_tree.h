@@ -2,11 +2,6 @@
 #ifndef __TOY_TREE__
 #define __TOY_TREE__
 
-#include <new>
-#include <stdlib.h>
-#include <iostream>
-
-#include <ext/aligned_buffer.h>
 #include <toy_alloc.h>
 #include <toy_iterator.h>
 
@@ -199,27 +194,15 @@ protected:
     // 如果只是返回指针，那么调用者仅仅得到一个指针的拷贝值，对这个拷贝值进行修改
     // 无法影响“原指针变量”；
     node_base_ptr& root() const {
-        // return static_cast<node_ptr&>(header->_parent);
         return header->_parent;
     }
     node_base_ptr& leftmost() const {
-        // return static_cast<node_ptr&>(header->_left);
         return header->_left;
     }
     node_base_ptr& rightmost() const {
-        // return static_cast<node_ptr&>(header->_right);
         return header->_right;
     }
 
-    // static node_base_ptr left(node_base_ptr __x) { 
-    //     return __x->_left;
-    // }
-    // static node_base_ptr right(node_base_ptr __x) { 
-    //     return __x->_right;
-    // }
-    // static node_base_ptr parent(node_base_ptr __x) { 
-    //     return __x->_parent;
-    // }
     static reference value(node_ptr __x) { 
         return *__x->valptr();
     }
@@ -260,8 +243,7 @@ protected:
 private:
     iterator insert(node_base_ptr, node_base_ptr, node_base_ptr);
 
-    void reset()
-    {
+    void reset() {
         root() = nullptr;
         leftmost() = header;
         rightmost() = header;
@@ -274,17 +256,16 @@ private:
         reset();
     }
 
-    void erase(node_ptr __x)
-    {
+    void erase(node_ptr __x) {
         // Erase without rebalancing.
-        while (__x != nullptr)
-        {   
+        while (__x != nullptr) {   
             erase(right(__x));
             node_ptr __y = left(__x);
             destory_one_node(__x);
             __x = __y;
         }
     }
+
 public:
     rbtree(const Compare& comp = Compare()) 
         : key_compare(comp) {
@@ -327,8 +308,7 @@ rbtree<Key, Value, KeyOfValue, Compare, Alloc>::insert_multi(const Value& __val)
     node_ptr __x = root();
     node_ptr __y = header;
 
-    while(__x != nullptr)
-    {
+    while(__x != nullptr) {
         __y = __x;
         __x = key_compare(key(__new), key(__x)) ?
               left(__x) : right(__x);
@@ -346,15 +326,14 @@ rbtree<Key, Value, KeyOfValue, Compare, Alloc>::insert_multi(const Value& __val)
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc> 
 std::pair<typename rbtree<Key, Value, KeyOfValue, Compare, Alloc>::iterator, bool> 
 rbtree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value& __val) {
-    // 这里可能造成内存泄露
+    
     node_ptr __new = create_one_node(__val);
 
     node_base_ptr __x = root();
     node_base_ptr __y = header;
     bool __comp = true;
 
-    while(__x != nullptr)
-    {
+    while(__x != nullptr) {
         __y = __x;
         // 此时比较返回的是__new < __x的真假，与下面不同
         __comp = key_compare(key(__new), key(__x));
@@ -363,13 +342,11 @@ rbtree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value& __val
 
     iterator __j = iterator(__y);
     if(__comp) {
-        if(__j == begin())
-        {
+        if(__j == begin()) {
             // 待插入节点的父节点为整个树的最左节点，可直接插入
             return std::pair<iterator, bool>(insert(__x, __y, __new), true);
         }
         else {
-
             // 否则，迭代器减一，注意__j为迭代器，其减一操作将向上遍历，直至找到
             // 整个树中key值小于其key值的最大值，其节点并不一定与__j相邻；
             --__j;
@@ -422,12 +399,6 @@ insert(node_base_ptr __x, node_base_ptr __y, node_base_ptr __new) {
     __pn->_parent = __py;
     __pn->_left = nullptr;
     __pn->_right = nullptr;
-
-    // while(1) {
-    //     volatile int k;
-    //     k++;
-    //     __x->_parent->_color = _rbtree_red;
-    // }
 
     rbtree_rebalance(__pn, header->_parent);
     ++node_count;
@@ -491,11 +462,6 @@ void rbtree_rotate_right(rbtree_node_base* __x, rbtree_node_base*& __root) {
 
 void rbtree_rebalance(rbtree_node_base* __x, rbtree_node_base*& __root) {
     __x->_color = _rbtree_red;
-    // while(1) {
-    //     volatile int k;
-    //     k++;
-    //     // __x->_parent->_color = _rbtree_red;
-    // }
 
     while(__x != __root && __x->_parent->_color == _rbtree_red) {
 

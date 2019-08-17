@@ -19,6 +19,8 @@ int main() {
     }
     printL(l1);
 
+    l1 = l1;
+
     list<int> l2(l1); // 0 1 2 3 4 5 6 7 8 9
     printL(l2);
     l2.erase(++l2.begin(), --l2.end()); // 0 9
@@ -53,7 +55,7 @@ int main() {
     printL(l3);
     l3.sort();
     printL(l3);
-    // while(1);
+
 }
 
 

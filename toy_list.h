@@ -1,15 +1,8 @@
-/*
- * @Description:
- * 
- */
-
 #ifndef __TOY_LIST__
 #define __TOY_LIST__
 
 #include <toy_iterator.h>
 #include <toy_alloc.h>
-
-#include <iostream>
 
 namespace toy {
 
@@ -113,15 +106,15 @@ class list {
         node_alloc::deallocate(__np, size_type(1));
     }
 
-    void null_node() {
+    void creat_null_node() {
         _pnode = create_one_node(value_type());
         _pnode->prev = _pnode;
         _pnode->next = _pnode;
     }
 
     /*
-    * 作用：将__first到__last的链表移到__position之前；
-    */
+     * 作用：将__first到__last的链表移到__position之前；
+     */
     void transfer(iterator __position, iterator __first, 
                                 iterator __last) {
         if(__position != __last) {
@@ -138,11 +131,11 @@ class list {
 
 public:
     list() {
-        null_node();
+        creat_null_node();
     }
 
     list(const list& __lst) {
-        null_node();
+        creat_null_node();
         iterator iter = __lst.begin();
         while(iter != __lst.end()) {
             push_back(*iter);
@@ -236,6 +229,8 @@ public:
     }
 
     list& operator=(const list& __lst) {
+        if(this == &__lst) return *this;
+
         list __temp(__lst);
         _pnode = __temp._pnode;
         return *this;

@@ -209,7 +209,6 @@ void __introsort_loop(RandomIter __first, RandomIter __last,
                       Size __depth_limit, Compare __comp) {
     while (__last - __first > int(_S_threshold)) {
         if (__depth_limit == 0) {
-            std::cout << "__partial_sort" << std::endl;
             // 其实是全排序，只不过与partial_sort共用了__partial_sort函数
             __partial_sort(__first, __last, __last, __comp);
             return;

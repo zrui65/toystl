@@ -12,6 +12,8 @@ int main() {
         rbt1.insert_unique(i);
     }
 
+    rbt1 = rbt1;
+
     auto iter2 = rbt1.find(99);
     std::cout << *iter2 << std::endl;
 

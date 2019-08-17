@@ -1,1 +1,5 @@
 # toystl
+
+## Build
+
+    ./build.sh

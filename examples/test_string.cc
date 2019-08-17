@@ -19,6 +19,8 @@ int main() {
     s1 = s3;
     s1[20] = 'M';
 
+    s3 = s3;
+
     std::cout << "string capacity:" << std::endl;
     std::cout << s1.capacity() << std::endl;
     std::cout << s2.capacity() << std::endl;

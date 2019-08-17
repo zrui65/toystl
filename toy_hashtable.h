@@ -1,11 +1,3 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-04 22:42:14
- * @LastEditTime: 2019-07-08 22:52:33
- * @LastEditors: Please set LastEditors
- */
-
 #ifndef __TOY_HASHTABLE__
 #define __TOY_HASHTABLE__
 
@@ -13,8 +5,6 @@
 #include <toy_alloc.h>
 #include <toy_vector.h>
 #include <toy_hashtable_aux.h>
-
-#include <iostream>
 
 namespace toy {
 
@@ -31,13 +21,10 @@ class hashtable;
 template<class Value, class Key, class HashFunc, class ExtractKey,
          class EqualKey, class Alloc>
 struct hashtable_iterator: public iterator<forward_iterator_tag, Value> {
-    typedef hashtable_iterator<Value, Key, HashFunc, ExtractKey, EqualKey,
-                               Alloc> iterator;
+    typedef hashtable_iterator<Value, Key, HashFunc, ExtractKey, EqualKey, Alloc> iterator;
     typedef hashtable_node<Value>* node_ptr;
-    typedef hashtable<Value, Key, HashFunc, ExtractKey, EqualKey,
-                               Alloc> hashtable_type;
+    typedef hashtable<Value, Key, HashFunc, ExtractKey, EqualKey, Alloc> hashtable_type;
     typedef size_t size_type;
-    
     
     node_ptr _cur;
     hashtable_type* _ht;
@@ -181,7 +168,9 @@ private:
     }
 
     void rehash(size_type __n_new_elt);
+
     std::pair<iterator, bool> insert_unique_core(const value_type& __x);
+    
     iterator insert_multi_core(const value_type& __x);
     
     void erase_bucket(size_type __bucket_index) {
